@@ -1,0 +1,23 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "she-sos-31880",
+                    "appId": "1:863657555780:android:d38629ffcf607232ed4911",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "she-sos-31880",
+                    "configurations": {
+                        "android": "1:863657555780:android:d38629ffcf607232ed4911",
+                        "ios": "1:863657555780:ios:dc912f3c2219ff58ed4911",
+                        "web": "1:863657555780:web:bf8d1ac0ff242c80ed4911"
+                    }
+                }
+            }
+        }
+    }
+}
