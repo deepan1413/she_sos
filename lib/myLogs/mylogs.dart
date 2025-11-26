@@ -9,26 +9,32 @@ class MyLog {
   static const String _cyan = "\x1B[36m";
 
   static void error(String msg) {
+    // ignore: avoid_print
     print("$_red[ERROR] $msg$_reset");
   }
 
   static void success(String msg) {
+    // ignore: avoid_print
     print("$_green[SUCCESS] $msg$_reset");
   }
 
   static void warning(String msg) {
+    // ignore: avoid_print
     print("$_yellow[WARNING] $msg$_reset");
   }
 
   static void info(String msg) {
+    // ignore: avoid_print
     print("$_blue[INFO] $msg$_reset");
   }
 
   static void debug(String msg) {
+    // ignore: avoid_print
     print("$_purple[DEBUG] $msg$_reset");
   }
 
   static void highlight(String msg) {
+    // ignore: avoid_print
     print("$_cyan[HIGHLIGHT] $msg$_reset");
   }
 }

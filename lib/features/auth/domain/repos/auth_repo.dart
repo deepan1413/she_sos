@@ -6,6 +6,6 @@ abstract class AuthRepo {
   Future<void> logout();
   Future<AppUser?> getCurrentUser();
   Future<String> sendPasswordResetEmail(String email);
-
+Future<AppUser?> signInWithGoogle();
 
 }
