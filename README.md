@@ -1,16 +1,37 @@
-# she_sos
+# 🆘 SHE SOS — Women Safety & Emergency Assistance App
 
-A new Flutter project.
+SheSOS is a Flutter-based safety application designed to empower women with quick emergency assistance, live location sharing, and trusted community support. Built with **Firebase**, **Google Sign-In**, **BLoC State Management**, and **Clean Architecture** — enabling secure and reliable safety features.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- 🔐 Firebase Authentication (Email & Google Sign-In)
+- 🚨 SOS Emergency Button (fast alert trigger)
+- 📍 Live GPS Location Sharing
+- 🧭 Volunteer Mode — Nearby volunteers receive alerts
+- 📞 Trusted Emergency Contacts
+- ☁️ Secure User Data Storage (Firestore)
+- 🎨 Modern Light & Dark Themes
+- 🛡️ Designed for real safety situations
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|------|------------|
+| Frontend | Flutter + Dart |
+| Backend | Firebase Authentication + Firestore |
+| State Management | BLoC (Cubit) |
+| Platform | Android / iOS |
+| UI | Material Design 3 |
+
+---
+
+## 📲 Installation & Setup
+
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/deepan1413/she_sos.git
+cd she_sos
