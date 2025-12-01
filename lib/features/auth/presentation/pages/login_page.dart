@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:she_sos/features/auth/presentation/components/my_button.dart';
 import 'package:she_sos/features/auth/presentation/components/my_textfield.dart';
 import 'package:she_sos/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:she_sos/myLogs/mylogs.dart';
 
 class LoginPage extends StatefulWidget {
   final void Function()? togglePage;
@@ -50,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> login() async {
+    MyLog.highlight("Try in to login");
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
