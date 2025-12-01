@@ -86,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
         );
 
         widget.togglePage?.call();
-      } else if (state is Autherror) {
+      } else if (state is AuthError) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(state.message)));

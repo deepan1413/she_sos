@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:she_sos/features/auth/presentation/components/my_button.dart';
 import 'package:she_sos/features/auth/presentation/components/my_textfield.dart';
 import 'package:she_sos/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:she_sos/features/auth/presentation/cubit/auth_states.dart';
 import 'package:she_sos/myLogs/mylogs.dart';
+
 
 class LoginPage extends StatefulWidget {
   final void Function()? togglePage;
@@ -28,9 +30,9 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> forgetPassword() async {
     final email = emailController.text.trim();
     if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter your email')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter your email')));
       return;
     }
 
@@ -39,36 +41,51 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final message = await authCubit.forgetpassword(email);
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error sending reset email: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error sending reset email: $e')));
     }
   }
+Future<void> login() async {
+  MyLog.highlight("Try in to login");
+  final email = emailController.text.trim();
+  final password = passwordController.text.trim();
+  final authCubit = context.read<AuthCubit>();
 
-  Future<void> login() async {
-    MyLog.highlight("Try in to login");
-    final email = emailController.text.trim();
-    final password = passwordController.text.trim();
-
-    if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter email and password')),
-      );
-      return;
-    }
-
-   
+  if (email.isEmpty || password.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please enter email and password')),
+    );
+    return;
   }
 
-    late final authCubit = context.read<AuthCubit>();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  await authCubit.login(email, password);
+}
+
+
+  late final authCubit = context.read<AuthCubit>();
+@override
+Widget build(BuildContext context) {
+  return BlocListener<AuthCubit, AuthState>(
+    listener: (context, state) {
+      final state = authCubit.state;
+      
+      if (state is AuthError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.message)),
+        );
+      }
+
+      if (state is Authenticated) {
+        
+      }
+    },
+    child: Scaffold(
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -102,8 +119,7 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  GestureDetector
-                  (
+                  GestureDetector(
                     onTap: () {
                       setState(() {
                         isForgetPassword = !isForgetPassword;
@@ -132,30 +148,25 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     "Create account",
                     style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Material(
-                 
                   borderRadius: BorderRadius.circular(8),
                   child: InkWell(
                     onTap: () async {
-                     authCubit.signInwithGoogle();
+                      authCubit.signInwithGoogle();
                     },
                     borderRadius: BorderRadius.circular(8),
-                    // ignore: deprecated_member_use
                     splashColor: Colors.white.withOpacity(0.2),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
+                      child: SizedBox(
                         height: 50,
                         width: double.infinity,
-                        alignment: Alignment.center,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -164,10 +175,9 @@ class _LoginPageState extends State<LoginPage> {
                               height: 24,
                               width: 24,
                             ),
-
-                            Text(
+                            const Text(
                               '  continue with Google',
-                              style:  TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
@@ -183,6 +193,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
