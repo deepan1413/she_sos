@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:she_sos/features/auth/domain/entitites/app_user.dart';
@@ -6,7 +7,8 @@ import 'package:she_sos/myLogs/mylogs.dart';
 
 class FirebaseAuthRepo implements AuthRepo {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  static const _onboardingKey = 'onboarding_complete'; // ignore this
+  static const _onboardingKey = 'onboarding_complete';
+  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
   bool _isGoogleInitialized = false;
@@ -58,7 +60,12 @@ class FirebaseAuthRepo implements AuthRepo {
     try {
       UserCredential userCredential = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
-      AppUser user = AppUser(email: email, uid: userCredential.user!.uid);
+      AppUser user = AppUser(
+        email: email,
+        uid: userCredential.user!.uid,
+        name: name,
+      );
+      await firebaseFirestore.collection('users').doc().set(user.toJson());
       return user;
     } catch (e) {
       MyLog.error(e.toString());
@@ -78,29 +85,23 @@ class FirebaseAuthRepo implements AuthRepo {
   @override
   Future<AppUser?> signInWithGoogle() async {
     try {
-      // Ensure GoogleSignIn is initialized
       await _initializeGoogleSignIn();
 
-      // Use authenticate, not signIn
       final GoogleSignInAccount? googleUser = await _googleSignIn.authenticate(
         scopeHint: ['email'],
       );
 
       if (googleUser == null) {
-        // user cancelled
         return null;
       }
 
-      // After authenticate, you may need to request authorization
       final GoogleSignInClientAuthorization? authorization = await googleUser
           .authorizationClient
           .authorizationForScopes(['email', 'profile']);
 
-      // Note: idToken comes from the authentication
       final idToken = googleUser.authentication.idToken;
       final accessToken = authorization?.accessToken;
 
-      // Create Firebase credential
       final credential = GoogleAuthProvider.credential(
         idToken: idToken,
         accessToken: accessToken,

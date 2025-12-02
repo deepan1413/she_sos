@@ -24,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController addressController = TextEditingController();
 
   bool _isLoading = false;
-
+  bool _isVolunter = false;
   @override
   void dispose() {
     emailController.dispose();
@@ -42,12 +42,14 @@ class _RegisterPageState extends State<RegisterPage> {
     final confirmPassword = secondpasswordController.text.trim();
     final name = nameController.text.trim();
     final phone = numberController.text.trim();
+
+
     final address = addressController.text.trim();
     final authCubit = context.read<AuthCubit>();
 
     if (name.isEmpty ||
         email.isEmpty ||
-        phone.isEmpty ||
+        numberController.text.isEmpty ||
         address.isEmpty ||
         password.isEmpty ||
         confirmPassword.isEmpty) {
@@ -74,7 +76,13 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() => _isLoading = true);
 
     try {
-      await authCubit.register(name, email, password);
+      await authCubit.register(
+        name,
+        email,
+        
+
+        password
+      );
 
       if (!mounted) return;
 

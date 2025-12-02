@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:she_sos/features/auth/data/firebase_auth_repo.dart';
 import 'package:she_sos/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:she_sos/features/auth/presentation/cubit/auth_states.dart';
-import 'package:she_sos/features/auth/presentation/home/pages/home_page.dart';
+import 'package:she_sos/features/auth/presentation/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:she_sos/features/auth/presentation/pages/auth_page.dart';
 import 'package:she_sos/firebase_options.dart';
 import 'package:she_sos/myLogs/mylogs.dart';
+// ignore: unused_import
 import 'package:she_sos/themes/darkmode_theme.dart';
 import 'package:she_sos/themes/lightmode_theme.dart';
 
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
               return AuthPage();
             }
             if (state is Authenticated) {
-              return HomePage();
+              return DashboardPage();
             } else {
               return const Scaffold(
                 body: Center(child: CircularProgressIndicator()),
